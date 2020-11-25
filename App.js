@@ -1,21 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { mapping, light as lightTheme } from "@eva-design/eva";
+import {
+  ApplicationProvider,
+  Layout,
+  Text,
+  IconRegistry,
+} from "@ui-kitten/components";
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import SignInScreen from "./screens/login";
+import { AppNavigator } from "./containers/appNavigator";
 
-export default function App() {
+export default () => {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider mapping={mapping} theme={lightTheme}>
+        {isSignedIn ? (
+          <AppNavigator />
+        ) : (
+          <SignInScreen onSignIn={() => setIsSignedIn(true)} />
+        )}
+      </ApplicationProvider>
+    </>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
